@@ -16,10 +16,8 @@ React form.
 ## Architecture
 
 ```
-┌─────────────────┐        HTTP POST /predict        ┌──────────────────┐        ┌────────────────────┐
-│  React Frontend  │ ───────────────────────────────► │  FastAPI Backend  │ ─────► │  house_price.pkl    │
-│  (Vite + TS)     │ ◄─────────────────────────────── │  (Uvicorn)        │        │  (sklearn Pipeline) │
-└─────────────────┘        JSON { predicted_price }   └──────────────────┘        └────────────────────┘
+React Frontend (Vite + TS)  --HTTP POST /predict-->  FastAPI Backend (Uvicorn)  --uses-->  house_price.pkl (sklearn Pipeline)
+React Frontend (Vite + TS)  <--JSON {predicted_price}--  FastAPI Backend (Uvicorn)
 ```
 
 ## Tech Stack
@@ -54,7 +52,7 @@ APP/
 
 ## Dataset
 
-**Source:** [House Price by Juhi Bhojani](https://www.kaggle.com/datasets/juhibhojani/house-price) on Kaggle
+**Source:** House Price by Juhi Bhojani — https://www.kaggle.com/datasets/juhibhojani/house-price
 **File:** `house_prices.csv` — ~187,531 rows, 21 columns of real property listings from India.
 
 ### Download
@@ -64,7 +62,7 @@ APP/
 **Option B — Kaggle CLI:**
 ```bash
 pip install kaggle
-# Get your API token: Kaggle → Settings → API → "Create New Token"
+# Get your API token: Kaggle -> Settings -> API -> "Create New Token"
 # Place kaggle.json in ~/.kaggle/ (macOS/Linux) or C:\Users\<you>\.kaggle\ (Windows)
 kaggle datasets download -d juhibhojani/house-price -p notebooks/data --unzip
 ```
@@ -73,19 +71,19 @@ kaggle datasets download -d juhibhojani/house-price -p notebooks/data --unzip
 
 The raw data required significant cleaning before it could be modeled:
 
-- **Price** (`Amount(in rupees)`) was text like `"42 Lac"` or `"1.2 Cr"` → converted to a
+- **Price** (`Amount(in rupees)`) was text like `"42 Lac"` or `"1.2 Cr"` -> converted to a
   numeric rupee value (`price_clean`).
-- **Carpet Area** was text like `"1200 sqft"` or `"140 sqm"` → parsed and normalized to
+- **Carpet Area** was text like `"1200 sqft"` or `"140 sqm"` -> parsed and normalized to
   square feet (`carpet_area_sqft`).
-- **Floor** was text like `"3 out of 10"`, `"Ground"`, `"Basement"` → converted to a
+- **Floor** was text like `"3 out of 10"`, `"Ground"`, `"Basement"` -> converted to a
   numeric floor level (`floor_num`).
 - **Bathroom / Balcony / Car Parking** were converted to numeric and missing values were
   imputed with the median (or 0 for Car Parking).
 - **Location / Society** are high-cardinality categoricals (thousands of unique values)
-  → grouped to the top 50 most frequent values, with the rest mapped to `"Other"`.
+  -> grouped to the top 50 most frequent values, with the rest mapped to `"Other"`.
 - Unused columns (`Index`, `Title`, `Description`, `Dimensions`, `Plot Area`, `Society`)
   were dropped.
-- **Outliers** were removed based on price-per-square-foot, keeping only the 1st–99th
+- **Outliers** were removed based on price-per-square-foot, keeping only the 1st-99th
   percentile range.
 
 After cleaning, the dataset was reduced from 187,531 rows to **99,968 rows** used for
@@ -97,7 +95,7 @@ Six models were trained and compared — three algorithms, each with and without
 log-transformed target (`np.log1p`) to reduce the effect of the highly skewed price
 distribution:
 
-| Model                     | MAE (₹)      | RMSE (₹)     | R²      |
+| Model                     | MAE (Rs)     | RMSE (Rs)    | R2      |
 |---------------------------|-------------:|-------------:|--------:|
 | **Random Forest (winner)**| 1,072,937    | 4,259,504    | 0.9099  |
 | Random Forest (log)       | 1,044,037    | 4,285,934    | 0.9088  |
@@ -106,10 +104,10 @@ distribution:
 | Linear Regression         | 4,571,537    | 7,542,829    | 0.7175  |
 | Linear Regression (log)   | 4,460,805    | 33,481,720   | -4.5670 |
 
-**Winner: Random Forest Regressor** — it achieved the lowest error and highest R² of all
+**Winner: Random Forest Regressor** — it achieved the lowest error and highest R2 of all
 six models, explaining about 91% of the variance in house prices on the held-out test
-set. A 3-fold cross-validation on the full dataset gave a mean R² of 0.56, reflecting
-the real-world noise and variability in the raw listings data (the test-set R² above is
+set. A 3-fold cross-validation on the full dataset gave a mean R2 of 0.56, reflecting
+the real-world noise and variability in the raw listings data (the test-set R2 above is
 the more representative single-split evaluation used for model selection).
 
 The full pipeline — imputation, scaling, one-hot encoding, and the regressor — is
@@ -187,13 +185,24 @@ npm run dev
 
 1. Start the backend: `uvicorn main:app --reload` (port 8000)
 2. Start the frontend: `npm run dev` inside `frontend/` (port 5173)
-3. Open `http://localhost:5173 ', fill in the property details, and submit the form to
-   see a live prediction. 
+3. Open `http://localhost:5173`, fill in the property details, and submit the form to
+   see a live prediction.
+
+## Screenshots
+
+### Prediction Form (empty)
+![Prediction Form](screenshots/form-empty.png)
+
+### Prediction Form (filled)
+![Prediction Form Filled](screenshots/form-filled.png)
+
+### Prediction Result
+![Prediction Result](screenshots/result.png)
 
 ## Team
 
--> Malak Mohamed Saeed
--> Haya Al-moatasem-Billah Hamed
+- Malak Mohamed Saeed
+- Haya Al-moatasem-Billah Hamed
 
 ## License
 
