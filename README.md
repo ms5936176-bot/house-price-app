@@ -151,16 +151,17 @@ Response:
 curl -X POST http://localhost:8000/predict \
   -H "Content-Type: application/json" \
   -d '{
-    "location": "bangalore",
-    "carpet_area_sqft": 1200,
-    "floor_num": 3,
-    "bathroom": 2,
-    "balcony": 1,
-    "furnishing": "Semi-Furnished",
-    "transaction": "Resale",
-    "ownership": "Freehold",
-    "facing": "East"
-  }'
+  "carpet_area_sqft": 1200,
+  "floor_num": 3,
+  "Bathroom": 2,
+  "Balcony": 1,
+  "Car Parking": 1,
+  "location_grouped": "bangalore",
+  "Furnishing": "Semi-Furnished",
+  "Transaction": "Resale",
+  "Ownership": "Freehold",
+  "facing": "East"
+}
 ```
 Response:
 ```json
