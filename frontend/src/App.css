@@ -1,0 +1,67 @@
+.page {
+  max-width: 480px;
+  margin: 40px auto;
+  padding: 24px;
+  font-family: system-ui, sans-serif;
+  direction: ltr;
+  text-align: left;
+}
+
+.prediction-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.form-row label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.form-row input,
+.form-row select {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  background-color: #2563eb;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: #93c5fd;
+  cursor: not-allowed;
+}
+
+.error-message {
+  color: #dc2626;
+  font-size: 14px;
+}
+
+.predicted-price {
+  font-size: 32px;
+  font-weight: 700;
+  color: #16a34a;
+  margin: 20px 0;
+}
+.page h1 {
+  font-size: 28px;
+  line-height: 1.4;
+  margin: 0 0 20px 0;
+  font-weight: 700;
+  white-space: normal;
+}
