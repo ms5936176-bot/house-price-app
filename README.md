@@ -187,12 +187,12 @@ npm run dev
 
 1. Start the backend: `uvicorn main:app --reload` (port 8000)
 2. Start the frontend: `npm run dev` inside `frontend/` (port 5173)
-3. Open `http://localhost:5173`, fill in the property details, and submit the form to
-   see a live prediction.
+3. Open `http://localhost:5173   , fill in the property details, and submit the form to
+   see a live prediction. 
 
 ## Team
 
-- ms5936176-bot
+ms5936176-bot
 - Malak Mohamed
 
 ## License
